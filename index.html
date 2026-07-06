@@ -1,0 +1,155 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+<meta charset="UTF-8" />
+<meta name="viewport" content="width=device-width, initial-scale=1.0" />
+<title>AWS IoT | Predictive Maintenance & Anomaly Detection Demo</title>
+<link rel="stylesheet" href="styles.css" />
+</head>
+<body>
+
+  <!-- ======================= HEADER ======================= -->
+  <header class="topbar">
+    <div class="brand">
+      <span class="brand-aws">AWS IoT</span>
+    </div>
+    <div class="title-block">
+      <h1>Predictive Maintenance &amp; Anomaly Detection</h1>
+      <p>Real-time equipment health · ML failure prediction · Automated work orders</p>
+    </div>
+    <div class="clock" id="clock"></div>
+  </header>
+
+  <!-- ======================= ARCHITECTURE STRIP ======================= -->
+  <section class="arch-strip">
+    <div class="arch-node" data-node="sensors">
+      <div class="arch-icon">📡</div>
+      <div class="arch-label">IoT Sensors</div>
+      <div class="arch-sub">Vibration · Temp · Pressure</div>
+    </div>
+    <div class="arch-arrow">→</div>
+    <div class="arch-node" data-node="sitewise">
+      <div class="arch-icon">🏭</div>
+      <div class="arch-label">AWS IoT SiteWise</div>
+      <div class="arch-sub">Ingest · Threshold &amp; ML Alarms</div>
+    </div>
+    <div class="arch-arrow">→</div>
+    <div class="arch-node" data-node="sagemaker">
+      <div class="arch-icon">🧠</div>
+      <div class="arch-label">Amazon SageMaker</div>
+      <div class="arch-sub">Failure Prediction Model</div>
+    </div>
+    <div class="arch-arrow">→</div>
+    <div class="arch-node" data-node="bedrock">
+      <div class="arch-icon">💬</div>
+      <div class="arch-label">Amazon Bedrock</div>
+      <div class="arch-sub">Plain-English Explanation</div>
+    </div>
+    <div class="arch-arrow">→</div>
+    <div class="arch-node" data-node="action">
+      <div class="arch-icon">🛠️</div>
+      <div class="arch-label">CMMS / ERP</div>
+      <div class="arch-sub">Work Order · Parts Order</div>
+    </div>
+  </section>
+
+  <!-- ======================= DEMO CONTROLS ======================= -->
+  <section class="controls-strip">
+    <button id="btnTrigger" class="btn btn-primary">▶ Trigger Anomaly on Motor M-114</button>
+    <button id="btnReset" class="btn btn-secondary">⟲ Reset Demo</button>
+    <div class="controls-hint">Click a demo control above, or click any asset on the left to inspect its live sensor feed.</div>
+  </section>
+
+  <!-- ======================= MAIN GRID ======================= -->
+  <main class="grid">
+
+    <!-- Asset selector / fleet overview -->
+    <section class="card fleet-card">
+      <div class="card-header">
+        <h2>Plant Floor — Production Line A</h2>
+        <span class="badge badge-live">● LIVE (simulated)</span>
+      </div>
+      <div class="asset-list" id="assetList"></div>
+    </section>
+
+    <!-- Sensor chart -->
+    <section class="card chart-card">
+      <div class="card-header">
+        <h2 id="chartTitle">Motor M-114 — Vibration (mm/s RMS)</h2>
+        <div class="legend-inline">
+          <span><i class="dot dot-normal"></i>Normal</span>
+          <span><i class="dot dot-warn"></i>Threshold Alarm</span>
+          <span><i class="dot dot-ml"></i>ML Anomaly Score</span>
+        </div>
+      </div>
+      <canvas id="sensorChart" height="230"></canvas>
+      <div class="sitewise-strip">
+        <div class="sw-metric"><span class="sw-label">SiteWise Asset</span><span class="sw-val" id="swAsset">Motor_M114</span></div>
+        <div class="sw-metric"><span class="sw-label">Property Alias</span><span class="sw-val" id="swAlias">/plant/lineA/m114/vibration</span></div>
+        <div class="sw-metric"><span class="sw-label">Threshold Alarm</span><span class="sw-val" id="swThreshold">Normal</span></div>
+        <div class="sw-metric"><span class="sw-label">ML Anomaly Score</span><span class="sw-val" id="swMl">0.06</span></div>
+      </div>
+    </section>
+
+    <!-- Prediction panel -->
+    <section class="card predict-card">
+      <div class="card-header">
+        <h2>SageMaker Failure Prediction</h2>
+      </div>
+      <div class="predict-body" id="predictBody">
+        <div class="predict-empty">Select an asset with an active anomaly to see the model's prediction.</div>
+      </div>
+    </section>
+
+    <!-- Bedrock chat-style explanation -->
+    <section class="card bedrock-card">
+      <div class="card-header">
+        <h2>Amazon Bedrock — Operator Explanation</h2>
+        <span class="badge badge-genai">GenAI</span>
+      </div>
+      <div class="bedrock-body" id="bedrockBody">
+        <div class="predict-empty">No active alert. Trigger an anomaly to see the plain-English explanation an operator would receive on the shop floor.</div>
+      </div>
+    </section>
+
+    <!-- Work order / CMMS integration -->
+    <section class="card wo-card">
+      <div class="card-header">
+        <h2>Automated Work Order &amp; Integration Log</h2>
+        <span class="badge badge-integration">CMMS · ERP · MES (read-only)</span>
+      </div>
+      <div class="wo-body" id="woBody">
+        <div class="predict-empty">No work orders generated yet.</div>
+      </div>
+    </section>
+
+    <!-- Cost comparison -->
+    <section class="card cost-card">
+      <div class="card-header">
+        <h2>Estimated Cost — AWS vs. Traditional APM Platform</h2>
+      </div>
+      <div class="cost-body">
+        <div class="cost-bar-row">
+          <div class="cost-bar-label">Traditional SaaS APM platform</div>
+          <div class="cost-bar-track"><div class="cost-bar cost-bar-legacy" style="width:100%">$600–1,800 /asset/yr</div></div>
+        </div>
+        <div class="cost-bar-row">
+          <div class="cost-bar-label">AWS SiteWise + SageMaker + Bedrock</div>
+          <div class="cost-bar-track"><div class="cost-bar cost-bar-aws" style="width:22%">$250–350 /asset/yr</div></div>
+        </div>
+        <p class="cost-note">Estimated 45–80% lower annual cost · pay-as-you-go · no upfront licensing</p>
+        <p class="cost-disclaimer">Estimates based on AWS published list pricing (2026) for a representative sensor load (~5 sensors/asset, 1 reading every 5 sec, 24/7). APM benchmark uses publicly available per-asset SaaS pricing. Actual costs vary — validate with the <a href="https://calculator.aws/#/createCalculator/iot-sitewise" target="_blank">AWS Pricing Calculator</a>.</p>
+      </div>
+    </section>
+
+  </main>
+
+  <footer class="footer">
+    <span>Simulated demo environment · No production data used · Architecture reflects an AWS reference design for industrial predictive maintenance</span>
+  </footer>
+
+  <script src="vendor/chart.umd.js"></script>
+  <script src="data.js"></script>
+  <script src="app.js"></script>
+</body>
+</html>
