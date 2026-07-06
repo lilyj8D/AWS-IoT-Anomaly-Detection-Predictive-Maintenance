@@ -2,7 +2,7 @@
 
 A fully interactive browser demo showing how AWS IoT SiteWise, Amazon SageMaker, and Amazon Bedrock work together to catch equipment failures before they happen — and automatically generate work orders when they do.
 
-## 👉 [Launch the Live Demo](https://lilyj8d.github.io/predictive-maintenance-demo/)
+## 👉 [Launch the Live Demo](https://lilyj8d.github.io/AWS-IoT-Anomaly-Detection-Predictive-Maintenance/)
 
 *(No install, no sign-up — just click and explore.)*
 
