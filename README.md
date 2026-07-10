@@ -75,19 +75,6 @@ Click **⟲ Reset Demo** to return everything to normal and run it again. Click 
 
 ---
 
-## Cost context
-
-The bottom card shows an estimated cost comparison between traditional SaaS APM platforms and the AWS-native stack used in this demo. Based on AWS published list pricing for a representative industrial sensor load (~5 sensors/asset, 1 reading every 5 seconds):
-
-| Approach | Estimated annual cost per asset |
-|----------|-------------------------------|
-| Traditional SaaS APM | $600–1,800 |
-| AWS SiteWise + SageMaker + Bedrock | $250–350 |
-
-These are directional estimates — use the [AWS Pricing Calculator](https://calculator.aws/#/createCalculator/iot-sitewise) to size against your actual workload.
-
----
-
 ## Tech details
 
 - Pure static HTML/JS/CSS — no server, no build step, no dependencies to install

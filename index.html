@@ -123,24 +123,7 @@
       </div>
     </section>
 
-    <!-- Cost comparison -->
-    <section class="card cost-card">
-      <div class="card-header">
-        <h2>Estimated Cost — AWS vs. Traditional APM Platform</h2>
-      </div>
-      <div class="cost-body">
-        <div class="cost-bar-row">
-          <div class="cost-bar-label">Traditional SaaS APM platform</div>
-          <div class="cost-bar-track"><div class="cost-bar cost-bar-legacy" style="width:100%">$600–1,800 /asset/yr</div></div>
-        </div>
-        <div class="cost-bar-row">
-          <div class="cost-bar-label">AWS SiteWise + SageMaker + Bedrock</div>
-          <div class="cost-bar-track"><div class="cost-bar cost-bar-aws" style="width:22%">$250–350 /asset/yr</div></div>
-        </div>
-        <p class="cost-note">Estimated 45–80% lower annual cost · pay-as-you-go · no upfront licensing</p>
-        <p class="cost-disclaimer">Estimates based on AWS published list pricing (2026) for a representative sensor load (~5 sensors/asset, 1 reading every 5 sec, 24/7). APM benchmark uses publicly available per-asset SaaS pricing. Actual costs vary — validate with the <a href="https://calculator.aws/#/createCalculator/iot-sitewise" target="_blank">AWS Pricing Calculator</a>.</p>
-      </div>
-    </section>
+
 
   </main>
 
@@ -148,7 +131,7 @@
     <span>Simulated demo environment · No production data used · Architecture reflects an AWS reference design for industrial predictive maintenance</span>
   </footer>
 
-  <script src="vendor/chart.umd.js"></script>
+  <script src="https://cdn.jsdelivr.net/npm/chart.js@4.4.7/dist/chart.umd.min.js"></script>
   <script src="data.js"></script>
   <script src="app.js"></script>
 </body>
